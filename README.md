@@ -60,6 +60,8 @@ Optional upgrades:
 
 ```bash
 ollama pull gemma3:4b    # LLM vibe expansion (keyword fallback works without it)
+                         # if pull fails behind a proxy: ollama create gemma3:4b -f Modelfile
+                         # (drop a gemma3-4b GGUF in models/ first — see docs/deploy.md)
 # ffmpeg on PATH          # MP3 export
 ```
 
@@ -131,8 +133,8 @@ included). Generation stays local; the site is just the shop window.
 
 - [x] MusicGen pipeline, seamless loops, night mode, local library
 - [x] Taste memory (Backboard) + static demo site
-- [ ] Fine-tuned vibe translator (Tinker) — a specialist model that turns lazy
-      human vibes into MusicGen-optimized prompts
+- [~] Fine-tuned vibe translator (Tinker) — dataset (83 Gemma-distilled examples)
+      + LoRA SFT script in repo; training run queued behind `tinker auth login`
 - [ ] Hosted demo + nightly radio (Render)
 - [ ] `slothsounds.tech` demo domain
 
