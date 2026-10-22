@@ -77,7 +77,7 @@ the repo so you can listen without running anything:
 - [`full-set.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/full-set.wav) — 4.7-minute night set (10 segments, crossfaded)
 
 **Live demo: [slothsounds-site.onrender.com](https://slothsounds-site.onrender.com/)** — a
-player page with all four tracks, deployed on Render from the `render.yaml` blueprint in
+player page with all six tracks, deployed on Render from the `render.yaml` blueprint in
 the repo. Generation stays local; the site is just the shop window.
 
 `slothsounds doctor` on my machine, verbatim:
