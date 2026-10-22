@@ -39,9 +39,14 @@ def build_night_set(
     library: TrackLibrary,
     use_llm: bool = True,
     seed: int | None = None,
+    memory=None,
     progress=print,
 ) -> dict:
-    """Generate a `minutes`-long set for `vibe`. Returns a result dict."""
+    """Generate a `minutes`-long set for `vibe`. Returns a result dict.
+
+    If a SlothMemory is passed, it suggests variation hints from remembered
+    taste and logs every segment back into memory.
+    """
     base_prompt, source = expand_vibe(
         vibe,
         use_llm=use_llm,
@@ -64,7 +69,12 @@ def build_night_set(
     segment_entries: list[dict] = []
 
     for i in range(n_segments):
-        hint = VARIATION_HINTS[i % len(VARIATION_HINTS)]
+        # Memory first: a hint shaped by what you keep coming back to.
+        hint = None
+        if memory is not None and memory.enabled:
+            hint = memory.suggest_variation(vibe)
+        if not hint:
+            hint = VARIATION_HINTS[i % len(VARIATION_HINTS)]
         prompt = f"{base_prompt}, {hint}"
         seg_seed = None if seed is None else seed + i
         progress(f"segment {i + 1}/{n_segments}: {hint} (seed={seg_seed})")
@@ -95,6 +105,8 @@ def build_night_set(
                 set_dir=str(set_dir),
             )
         )
+        if memory is not None and memory.enabled:
+            memory.remember_generation(vibe, prompt, seg_seed)
 
     full = normalize(join_segments(segments, settings.sample_rate, settings.crossfade_seconds))
     set_path = write_wav(set_dir / "full-set.wav", full, settings.sample_rate)

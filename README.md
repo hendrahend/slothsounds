@@ -108,13 +108,32 @@ out/
 - **Works offline**: plane, cabin, cabin-in-the-woods. Zero data, zero subscription.
 - **Your listening stays yours**: nothing is uploaded, nothing is logged.
 
+## Taste memory (optional)
+
+With a free [Backboard](https://backboard.io) key, Sloth Sounds remembers
+which vibes you keep coming back to and shapes future night sets around
+that taste — persistent memory across sessions, one API:
+
+```bash
+export SLOTHSOUNDS_BACKBOARD_KEY=...
+slothsounds night 30 "slow ambient for sleep" --memory
+```
+
+Without a key everything still works; memory is strictly an upgrade.
+
+## Demo site
+
+`slothsounds site` builds a static player page (`site/`) from your local
+library — deploy it anywhere (a `render.yaml` blueprint for Render is
+included). Generation stays local; the site is just the shop window.
+
 ## Roadmap
 
 - [x] MusicGen pipeline, seamless loops, night mode, local library
+- [x] Taste memory (Backboard) + static demo site
 - [ ] Fine-tuned vibe translator (Tinker) — a specialist model that turns lazy
       human vibes into MusicGen-optimized prompts
 - [ ] Hosted demo + nightly radio (Render)
-- [ ] Taste memory: remember which vibes you keep coming back to (Backboard)
 - [ ] `slothsounds.tech` demo domain
 
 ## Development

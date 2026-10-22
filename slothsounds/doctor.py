@@ -72,6 +72,14 @@ def run_checks(settings: Settings | None = None) -> list[Check]:
                             f"not reachable at {settings.ollama_url} (optional, "
                             "heuristic vibe expansion will be used)"))
 
+    # Backboard (optional, taste memory)
+    import os
+
+    bb_key = os.environ.get("SLOTHSOUNDS_BACKBOARD_KEY")
+    checks.append(Check(bool(bb_key), "backboard",
+                        "API key set" if bb_key
+                        else "SLOTHSOUNDS_BACKBOARD_KEY not set (optional, taste memory)"))
+
     return checks
 
 

@@ -33,6 +33,8 @@ def _add_common(p: argparse.ArgumentParser) -> None:
                    help="skip the local LLM and use keyword vibe expansion")
     p.add_argument("--ollama-model", default=None, help="Ollama model for vibe expansion")
     p.add_argument("--out", default=None, help="output directory (default: out/)")
+    p.add_argument("--memory", action="store_true",
+                   help="enable taste memory via Backboard (or set SLOTHSOUNDS_BACKBOARD_KEY)")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -65,8 +67,27 @@ def build_parser() -> argparse.ArgumentParser:
     lib.add_argument("--dir", default=None, help="library directory (default: out/)")
     lib.add_argument("--all", action="store_true", help="show every entry, not just the latest")
 
+    site_cmd = sub.add_parser("site", help="build the static demo site from the library")
+    site_cmd.add_argument("--dir", default=None, help="library directory (default: out/)")
+
     sub.add_parser("doctor", help="check the environment")
     return parser
+
+
+def _memory(args):
+    """Build a SlothMemory when enabled by flag or env key."""
+    import os
+
+    from .memory import SlothMemory
+
+    key = os.environ.get("SLOTHSOUNDS_BACKBOARD_KEY")
+    if not (getattr(args, "memory", False) or key):
+        return None
+    if not key:
+        print("memory requested but SLOTHSOUNDS_BACKBOARD_KEY is not set — skipping",
+              file=sys.stderr)
+        return None
+    return SlothMemory(api_key=key)
 
 
 def _settings(args) -> Settings:
@@ -134,6 +155,10 @@ def cmd_gen(args) -> int:
                 model=settings.model, seed=seed,
                 duration=duration_seconds(loop, settings.sample_rate), path=wav_path)
 
+    memory = _memory(args)
+    if memory is not None:
+        memory.remember_generation(args.vibe, vibe_prompt, seed)
+
     print(f"saved  : {wav_path} ({duration_seconds(loop, settings.sample_rate):.1f}s, seamless loop)")
     if args.mp3:
         mp3 = _export_mp3(wav_path)
@@ -155,6 +180,7 @@ def cmd_night(args) -> int:
             library=library,
             use_llm=not args.no_llm,
             seed=args.seed,
+            memory=_memory(args),
         )
     finally:
         engine.unload()
@@ -188,6 +214,16 @@ def cmd_library(args) -> int:
     return 0
 
 
+def cmd_site(args) -> int:
+    import subprocess
+
+    script = Path(__file__).resolve().parent.parent / "scripts" / "build_site.py"
+    cmd = [sys.executable, str(script)]
+    if args.dir:
+        cmd += ["--dir", args.dir]
+    return subprocess.run(cmd).returncode
+
+
 def cmd_doctor(args) -> int:
     return 0 if print_report(run_checks(_settings(args))) else 1
 
@@ -199,6 +235,7 @@ def main(argv: list[str] | None = None) -> int:
         "night": cmd_night,
         "vibe": cmd_vibe,
         "library": cmd_library,
+        "site": cmd_site,
         "doctor": cmd_doctor,
     }
     try:
