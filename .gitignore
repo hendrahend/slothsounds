@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Envs
+.venv/
+venv/
+
+# Generated audio (keep the repo clean; the library.json metadata is enough)
+out/
+*.wav
+*.mp3
+*.flac
+
+# Test / tooling
+.pytest_cache/
+.coverage
+
+# OS
+desktop.ini
+Thumbs.db

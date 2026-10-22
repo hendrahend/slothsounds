@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slothsounds"
+version = "0.1.0"
+description = "Local-first ambient music generator: type a lazy vibe, get a seamless wind-down loop — open-weight models only, nothing leaves your laptop."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Hendra Hendriana" }]
+keywords = ["musicgen", "ambient", "local-first", "open-weight", "music-generation"]
+dependencies = [
+    "numpy>=1.24",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+# Heavy deps (torch + audiocraft) live behind an extra so the CLI,
+# tests and doctor work on a bare install.
+music = [
+    "torch>=2.2",
+    "torchaudio>=2.2",
+    "audiocraft>=1.3.0",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+slothsounds = "slothsounds.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["slothsounds*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
