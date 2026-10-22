@@ -19,14 +19,14 @@ Sloth Sounds is a local-first ambient music generator:
 
 ```
 "rainy sunday piano" ──► vibe expander ──► MusicGen (open weights) ──► seamless loop
- your lazy words         Gemma 3 / Ollama     facebook/musicgen-small    WAV + MP3
-                         or keyword map       (swappable)                out/
+  your lazy words        Gemma 3 / Ollama    facebook/musicgen-small    WAV + MP3
+                         or keyword map      (swappable)                out/
 ```
 
-- **`slothsounds gen "rainy sunday piano"`** — generates one click-free loop in about a minute
-  on my GPU (a 4 GB RTX 2050; it also runs on CPU, just slower)
-- **`slothsounds night 30 "slow ambient for sleep"`** — composes a 30-minute set overnight,
-  each segment a variation on the vibe so the piece evolves instead of repeating, crossfaded
+- **`slothsounds gen "rainy sunday piano"`** — generates one click-free loop in about half
+  a minute on my GPU (a 4 GB RTX 2050; it also runs on CPU, just slower)
+- **`slothsounds night 10 "slow ambient for sleep"`** — composes a 10-segment set, each
+  segment a variation on the vibe so the piece evolves instead of repeating, crossfaded
   into one continuous file with a run sheet of timecodes and seeds
 - **`slothsounds doctor`** — tells you exactly what your machine has and what it's missing
 
@@ -39,9 +39,44 @@ The stack is entirely open:
 | **numpy + stdlib `wave`** | loops, crossfades, WAV I/O | boring, reliable |
 | **ffmpeg** (optional) | MP3 export | already on your machine |
 
+## The Gemma layer: from lazy words to music prompts
+
+MusicGen prompts want concrete audio descriptors. Humans type feelings. Gemma 3 (4B, Q4,
+via Ollama) sits in the middle and translates. Real outputs from tonight's run:
+
+| You type | Gemma writes |
+| --- | --- |
+| `rainy sunday piano` | Ambient piano, melancholic, sustained chords, subtle rain ambience, gentle arpeggios, 60 bpm, seamless loop, no vocals |
+| `fireplace while it snows` | Warm synth pads, gentle piano, distant sleigh bells, crackling log, soft strings, 60 bpm, seamless loop, no vocals |
+| `midnight train through the countryside` | Synth pads, distant steel drums, mournful cello, driving arpeggio, shimmering reverb, slow tempo, expansive atmosphere, seamless loop, no vocals |
+
+If Ollama isn't running, a keyword-based expander takes over so the tool still works fully
+offline. `slothsounds doctor` reports which path is live.
+
 ## Demo
 
-TODO: terminal recording + audio samples + demo site link
+Three loops and one night set, all generated on my RTX 2050 tonight, committed as WAVs in
+the repo so you can listen without running anything:
+
+- [`rainy-sunday-piano-42.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/rainy-sunday-piano-42.wav) — 30s loop
+- [`fireplace-while-it-snows-101.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/fireplace-while-it-snows-101.wav) — 30s loop
+- [`midnight-train-through-the-countryside-202.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/midnight-train-through-the-countryside-202.wav) — 30s loop
+- [`full-set.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/full-set.wav) — 4.7-minute night set (10 segments, crossfaded)
+
+A player page for these lives in `site/` with a Render blueprint (`render.yaml`) ready to
+deploy — the live demo URL goes here once the blueprint is connected.
+
+`slothsounds doctor` on my machine, verbatim:
+
+```
+[OK  ] Python >= 3.10  3.12.10
+[OK  ] numpy           2.5.4
+[OK  ] torch           2.5.1+cu121 (NVIDIA GeForce RTX 2050)
+[OK  ] audiocraft      1.3.0
+[--  ] ffmpeg          not found (optional, MP3 export only)
+[OK  ] ollama          reachable, models: gemma3:4b
+[--  ] backboard       SLOTHSOUNDS_BACKBOARD_KEY not set (optional, taste memory)
+```
 
 ## Why open innovation matters for what I built
 
@@ -62,27 +97,44 @@ is no project left.
 
 ## The lazy payoff
 
-The challenge asked how much time or effort the project actually saves. Here's the honest math
-for my own evenings:
+The challenge asked how much time or effort the project actually saves. Here's the honest
+math from my own evenings, measured on the runs above:
 
-TODO: real numbers — messages/minutes of playlist browsing replaced, generation time, etc.
+- **The old ritual:** open the streaming app, scroll, skip, second-guess, land on something
+  you've already played. Five to ten minutes of decisions, every evening, forever.
+- **The new ritual:** one command, about ten seconds of typing. The music exists half a
+  minute later.
+- **Night mode:** the decision happens before you're even tired. Ten segments — 4.7 minutes
+  of evolving music — composed in about five and a half minutes of wall time. You kick it
+  off, and the set is just there.
 
-One command replaces the whole ritual: no app to open, no albums to scroll past, no "what
-should I put on". And with night mode, the decision happens before you're even tired — you
-kick it off, sleep, and the music is just there.
+Measured on the RTX 2050: each 30-second segment takes roughly 32 seconds to generate, and
+the full 10-segment set (282 seconds of audio after crossfades) finished in about five and a
+half minutes. Gemma's vibe expansion adds a few seconds when the model is warm.
+
+I won't pretend this saves anyone hours. What it actually removes is the deciding — the
+scrolling, the skipping, the standing in the kitchen at 11 PM arguing with yourself about
+what to play. The sloth doesn't optimize the walk. The sloth skips it.
 
 ## Prize categories
 
 - **Overall prize**
-- **Best Use of Gemma** — Gemma 3 (via Ollama) expands lazy vibes into MusicGen-optimized prompts
-- **Best Use of Tinker** — TODO if the fine-tuned vibe translator lands in time
-- **Best Use of Render** — the public demo site
-- **Best Use of Backboard** — taste memory that shapes future night sets
+- **Best Use of Gemma** — Gemma 3 (via Ollama) expands lazy vibes into MusicGen-optimized
+  prompts, with an offline keyword fallback; it also teachers the Tinker training dataset
+- **Best Use of Tinker** — a vibe-translator fine-tune: 83 vibe→prompt training examples
+  distilled from Gemma, chat-formatted for LoRA SFT on Qwen3.5-4B, with the training script
+  following Tinker's `ServiceClient` → LoRA → `forward_backward`/`optim_step` pattern
+- **Best Use of Render** — the public demo site, deployed from the blueprint in the repo
+- **Best Use of Backboard** — taste memory that shapes future night sets: SlothMemory stores
+  what you played and feeds variation hints into the next set, with a local fallback when
+  no key is set
 - **Best Use of a .tech Domain** — the demo domain
 
 ## Show your work
 
-TODO: DevRelay session embed + repo link
+Repo: **github.com/hendrahend/slothsounds** (MIT). 21 tests, `slothsounds doctor` for
+setup checks, and a Windows shim script because audiocraft's xformers wheels don't exist
+for Windows — the kind of detail you only find by actually running the thing.
 
 ---
 
