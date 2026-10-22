@@ -35,6 +35,24 @@
       "duration": 30.0,
       "file": "audio/midnight-train-through-the-countryside-202.wav",
       "created_at": "2026-10-22T03:49:49+00:00"
+    },
+    {
+      "id": "a120355a",
+      "kind": "loop",
+      "vibe": "rainy sunday piano",
+      "prompt": "rainy sunday piano, gentle rainfall, distant rolling thunder, soft felt-piano melody, intimate close-miked piano, ambient instrumental, seamless loop, high quality recording, no vocals",
+      "duration": 30.0,
+      "file": "audio/rainy-sunday-piano-777-heuristic.wav",
+      "created_at": "2026-10-22T05:54:40+00:00"
+    },
+    {
+      "id": "813442b5",
+      "kind": "loop",
+      "vibe": "rainy sunday piano",
+      "prompt": "Ambient piano, melancholic, subtle strings, gentle rain ambience, slow tempo, shimmering textures, seamless loop, no vocals",
+      "duration": 30.0,
+      "file": "audio/rainy-sunday-piano-777-gemma.wav",
+      "created_at": "2026-10-22T05:56:47+00:00"
     }
   ]
 }

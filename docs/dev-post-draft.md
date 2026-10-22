@@ -53,6 +53,19 @@ via Ollama) sits in the middle and translates. Real outputs from tonight's run:
 If Ollama isn't running, a keyword-based expander takes over so the tool still works fully
 offline. `slothsounds doctor` reports which path is live.
 
+## Hear the Gemma layer work
+
+Same vibe, same seed (777), same model, same GPU. The only variable is who writes the prompt:
+
+| Expander | What MusicGen received | Listen |
+| --- | --- | --- |
+| Keyword heuristic | rainy sunday piano, gentle rainfall, distant rolling thunder, soft felt-piano melody, intimate close-miked piano, ambient instrumental, seamless loop, high quality recording, no vocals | [heuristic](https://github.com/hendrahend/slothsounds/blob/main/site/audio/rainy-sunday-piano-777-heuristic.wav) |
+| Gemma 3 | Ambient piano, melancholic, subtle strings, gentle rain ambience, slow tempo, shimmering textures, seamless loop, no vocals | [gemma](https://github.com/hendrahend/slothsounds/blob/main/site/audio/rainy-sunday-piano-777-gemma.wav) |
+
+The heuristic path staples stock descriptors onto your words. Gemma makes decisions — it
+picks the instrumentation, sets a tempo, shapes an arc. Same seed means any difference you
+hear comes from the prompt alone.
+
 ## Demo
 
 Three loops and one night set, all generated on my RTX 2050 tonight, committed as WAVs in
@@ -119,17 +132,18 @@ what to play. The sloth doesn't optimize the walk. The sloth skips it.
 
 ## Prize categories
 
-- **Overall prize**
+Entering two categories, where the integration is strongest:
+
 - **Best Use of Gemma** — Gemma 3 (via Ollama) expands lazy vibes into MusicGen-optimized
-  prompts, with an offline keyword fallback; it also teachers the Tinker training dataset
-- **Best Use of Tinker** — a vibe-translator fine-tune: 83 vibe→prompt training examples
-  distilled from Gemma, chat-formatted for LoRA SFT on Qwen3.5-4B, with the training script
-  following Tinker's `ServiceClient` → LoRA → `forward_backward`/`optim_step` pattern
-- **Best Use of Render** — the public demo site, deployed from the blueprint in the repo
-- **Best Use of Backboard** — taste memory that shapes future night sets: SlothMemory stores
-  what you played and feeds variation hints into the next set, with a local fallback when
-  no key is set
-- **Best Use of a .tech Domain** — the demo domain
+  prompts, with an offline keyword fallback; it also teachers the fine-tuning dataset in
+  the repo
+- **Best Use of Render** — the public demo site at
+  [slothsounds-site.onrender.com](https://slothsounds-site.onrender.com/), deployed from
+  the `render.yaml` blueprint in the repo, serving the actual generated audio
+
+Tinker and Backboard integrations are wired in the repo (a Gemma-distilled training
+dataset plus LoRA SFT script; taste memory with a local fallback), but they are not the
+headline entries for this challenge.
 
 ## Show your work
 
