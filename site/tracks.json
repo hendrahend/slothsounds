@@ -1,0 +1,40 @@
+{
+  "tracks": [
+    {
+      "id": "3c972a72",
+      "kind": "loop",
+      "vibe": "rainy sunday piano",
+      "prompt": "rainy sunday piano, gentle rainfall, distant rolling thunder, soft felt-piano melody, intimate close-miked piano, ambient instrumental, seamless loop, high quality recording, no vocals",
+      "duration": 30.0,
+      "file": "audio/rainy-sunday-piano-42.wav",
+      "created_at": "2026-10-22T03:28:32+00:00"
+    },
+    {
+      "id": "55cc3953",
+      "kind": "set",
+      "vibe": "slow ambient for sleep",
+      "prompt": "slow ambient for sleep, very slow tempo, no percussion, lullaby-like, ambient instrumental, seamless loop, high quality recording, no vocals",
+      "duration": 282.0,
+      "file": "audio/full-set.wav",
+      "created_at": "2026-10-22T03:35:05+00:00"
+    },
+    {
+      "id": "56224f15",
+      "kind": "loop",
+      "vibe": "fireplace while it snows",
+      "prompt": "Warm synth pads, gentle piano, distant sleigh bells, crackling log, soft strings, 60 bpm, seamless loop, no vocals",
+      "duration": 30.0,
+      "file": "audio/fireplace-while-it-snows-101.wav",
+      "created_at": "2026-10-22T03:48:58+00:00"
+    },
+    {
+      "id": "abd53db9",
+      "kind": "loop",
+      "vibe": "midnight train through the countryside",
+      "prompt": "Synth pads, distant steel drums, mournful cello, driving arpeggio, shimmering reverb, slow tempo, expansive atmosphere, seamless loop, no vocals",
+      "duration": 30.0,
+      "file": "audio/midnight-train-through-the-countryside-202.wav",
+      "created_at": "2026-10-22T03:49:49+00:00"
+    }
+  ]
+}
