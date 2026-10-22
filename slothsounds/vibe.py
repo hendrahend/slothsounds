@@ -87,7 +87,7 @@ def ollama_expand(
     vibe: str,
     model: str = "gemma3:4b",
     url: str = "http://localhost:11434",
-    timeout: float = 30.0,
+    timeout: float = 120.0,
 ) -> str | None:
     """Ask a local Ollama model to expand the vibe. Returns None on any failure."""
     try:
@@ -115,7 +115,7 @@ def expand_vibe(
     use_llm: bool = True,
     ollama_model: str = "gemma3:4b",
     ollama_url: str = "http://localhost:11434",
-    timeout: float = 30.0,
+    timeout: float = 120.0,
 ) -> tuple[str, str]:
     """Expand a vibe into a music prompt.
 

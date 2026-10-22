@@ -10,11 +10,9 @@ dist/
 .venv/
 venv/
 
-# Generated audio (keep the repo clean; the library.json metadata is enough)
-out/
-*.wav
-*.mp3
-*.flac
+# Local model weights (Gemma 3 GGUF, ~2.4 GB).
+# Download separately — see docs/deploy.md. Not committed to git.
+models/
 
 # Test / tooling
 .pytest_cache/

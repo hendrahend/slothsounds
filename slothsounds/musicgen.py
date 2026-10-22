@@ -39,8 +39,7 @@ class MusicGenEngine:
         self.model_name = model_name
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self._torch = torch
-        self.model = MusicGen.get_pretrained(model_name)
-        self.model.to(self.device)
+        self.model = MusicGen.get_pretrained(model_name, device=self.device)
 
     def generate(
         self,
