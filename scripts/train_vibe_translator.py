@@ -10,6 +10,11 @@ Prereqs:
     export TINKER_API_KEY=...        # or: tinker auth login
     python scripts/build_vibe_dataset.py   # creates data/vibe_dataset.jsonl
 
+If installing into the main venv (which pins torch 2.5.1+cu121 and
+transformers 4.46.3 for audiocraft), avoid the dependency upgrade:
+
+    pip install tinker tinker-cookbook --no-deps datasets==2.21.0
+
 Run:
     python scripts/train_vibe_translator.py
     python scripts/train_vibe_translator.py --steps 40 --lr 0.0002
