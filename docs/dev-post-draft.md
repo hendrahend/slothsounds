@@ -63,8 +63,9 @@ the repo so you can listen without running anything:
 - [`midnight-train-through-the-countryside-202.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/midnight-train-through-the-countryside-202.wav) — 30s loop
 - [`full-set.wav`](https://github.com/hendrahend/slothsounds/blob/main/site/audio/full-set.wav) — 4.7-minute night set (10 segments, crossfaded)
 
-A player page for these lives in `site/` with a Render blueprint (`render.yaml`) ready to
-deploy — the live demo URL goes here once the blueprint is connected.
+**Live demo: [slothsounds-site.onrender.com](https://slothsounds-site.onrender.com/)** — a
+player page with all four tracks, deployed on Render from the `render.yaml` blueprint in
+the repo. Generation stays local; the site is just the shop window.
 
 `slothsounds doctor` on my machine, verbatim:
 
